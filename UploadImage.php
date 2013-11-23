@@ -5,7 +5,7 @@
 <title>Online Album</title>
 </head>
 <body>
-<h3>Upload your Pictures(accepted picture types: JPEG, GIF, PNG) </h3>
+<h3>Upload your Picture </h3>
 <form action='NewUser.php' method='post'>
   <table>
     		<tr>
