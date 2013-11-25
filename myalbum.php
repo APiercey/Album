@@ -14,7 +14,7 @@ else {
 ?>
 <div class="albumHead">
 	<h2><?php echo $user->getName(); ?>'s Album</h2>
-	<h3>The Grand Canyon Aerial View</h3>
+	<h3><?php if($largePicture) echo $largePicture->getTitle(); ?></h3>
 </div>
 <div class="imageInfo">
 	<?php 
@@ -32,25 +32,47 @@ else {
     <?php
 	if($largePicture) {
 		
-		echo $largePicture->getTitle();
+		echo $largePicture->getDescription();
 	}
 	?>
 </p>
 </div>
 <div class="thumbnails">
 	<?php 
-	$index = 0;
-		$pictures = $user->getPictures(0, 7);
+		$index = 0;
+		$amount = 7;
+		if( isset($_GET['index']) ) {
+
+			$index = $_GET['index'];
+		}
+		$pictures = $user->getPictures($index, $amount);
 		foreach ($pictures as $picture) {
 
-			echo "<a href='myalbum.php?pictureid=".$picture->getPictureID()."'><img src='".$picture->getThumbnail()."' alt='".$picture->getTitle()."' title='".$picture->getTitle()."'></a>";
+			echo "<a href='myalbum.php?pictureid=".$picture->getPictureID()."&index=".$index."'><img src='".$picture->getThumbnail()."' alt='".$picture->getTitle()."' title='".$picture->getTitle()."'></a>";
 		}
 	?>
 
 </div>
 <div class="thumbnailsFooter">
-	<span class="prev"><a href="myalbum.php?action=prev" title="Previous thumbnails">&#60; Prev</a></span>
-	<span class="thumbnailInfo"><?php echo "Displaying ".($index + 1)." to ".count($pictures)." of ".$user->numOfPictures()." total thumbnails."; ?></span>
-	<span class="next"><a href="myalbum.php?action=next" title="Next thumbnails">Next &#62; </a></span>
+	<?php
+	$getVars = "";
+	if ( isset($_GET['pictureid']) ) {
+		$getVars .= "&pictureid=".$_GET['pictureid'];
+	}
+	?>
+	<?php
+	if($index > 0) {
+
+		echo '<span class="prev"><a href="myalbum.php?index='.($index - $amount).$getVars.'" title="Previous thumbnails">&#60; Prev</a></span>';
+	}
+	?>
+	
+	<span class="thumbnailInfo"><?php echo "Displaying ".($index + 1)." to ".($index + count($pictures))." of ".$user->numOfPictures()." total thumbnails."; ?></span>
+	<?php 
+	if($index + $amount <= $user->numOfPictures()) {
+
+		echo '<span class="next"><a href="myalbum.php?index='.($index + $amount).$getVars.'" title="Next thumbnails">Next &#62; </a></span>';
+	}
+	?>
 </div>
 <?php include 'footer.php'; ?>
