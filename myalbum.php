@@ -11,7 +11,6 @@ if( isset($_GET['pictureid']) ) {
 else {
 	$largePicture = $user->getPicture(1);
 }
-var_dump($largePicture);
 ?>
 <div class="albumHead">
 	<h2><?php echo $user->getName(); ?>'s Album</h2>
@@ -32,13 +31,15 @@ var_dump($largePicture);
 	<p>
     <?php
 	if($largePicture) {
-		$largePicture->getDescription();
+		
+		echo $largePicture->getTitle();
 	}
 	?>
 </p>
 </div>
 <div class="thumbnails">
 	<?php 
+	$index = 0;
 		$pictures = $user->getPictures(0, 7);
 		foreach ($pictures as $picture) {
 
@@ -49,7 +50,7 @@ var_dump($largePicture);
 </div>
 <div class="thumbnailsFooter">
 	<span class="prev"><a href="myalbum.php?action=prev" title="Previous thumbnails">&#60; Prev</a></span>
-	<span class="thumbnailInfo">Displaying 1 to 7 of 21 thumbnails</span>
+	<span class="thumbnailInfo"><?php echo "Displaying ".($index + 1)." to ".count($pictures)." of ".$user->numOfPictures()." total thumbnails."; ?></span>
 	<span class="next"><a href="myalbum.php?action=next" title="Next thumbnails">Next &#62; </a></span>
 </div>
 <?php include 'footer.php'; ?>

@@ -81,4 +81,8 @@ class User
 		
 		return $result;
 	}
+	public function numOfPictures()
+	{
+		return count($this->pictures);
+	}
 }
