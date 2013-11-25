@@ -11,7 +11,7 @@ if( isset($_GET['pictureid']) ) {
 else {
 	$largePicture = $user->getPicture(1);
 }
-
+var_dump($largePicture);
 ?>
 <div class="albumHead">
 	<h2><?php echo $user->getName(); ?>'s Album</h2>
@@ -29,28 +29,12 @@ else {
 	}
 	?>
 	
-	<p>The extreme north of Greenland, Peary Land, is not
-	covered by an ice sheet, because the air there is too
-	dry to produce snow, which is essential in the production
-	and maintenance of an ice sheet. If the Greenland ice 
-	sheet were to melt away completely, the world's sea level
-	would rise by more than 7 m (23 ft).
-
-	In 2007 the existence of a new island was announced. Named
-	"Uunartoq Qeqertaq" (English: Warming Island), this island
-	has always been present off the coast of Greenland, but was
-	covered by a glacier. This glacier was discovered in 2002
-	to be shrinking rapidly, and by 2007 had completely melted
-	away, leaving the exposed island. The island was named 
-	Place of the Year by the Oxford Atlas of the World in 2007.
-	Ben Keene, the atlas's editor, commented: "In the last 
-	two or three decades, global warming has reduced the 
-	size of glaciers throughout the Arctic and earlier 
-	this year, news sources confirmed what climate scientists
-	already knew: water, not rock, lay beneath this ice bridge 
-	on the east coast of Greenland. More islets are likely to 
-	appear as the sheet of frozen water covering the world's 
-	largest island continues to melt".
+	<p>
+    <?php
+	if($largePicture) {
+		$largePicture->getDescription();
+	}
+	?>
 </p>
 </div>
 <div class="thumbnails">

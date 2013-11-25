@@ -24,6 +24,10 @@ class Picture
 	{
 		return $this->title;
 	}
+	public function getDescription()
+	{
+		return $this->desc;
+	}
 	public function getPictureID()
 	{
 		return $this->pictureID;
