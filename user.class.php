@@ -57,10 +57,9 @@ class User
 			$index = 0;
 		}
 
-		for ($i = $index; $i < ($index + $amount || count($this->pictures)); $i++) { 
-			echo $i;
-			echo "here";
-			$smallPicturesList[] = $this->pictures[$index];
+		for ($i = $index; ($i < ($index + $amount) && $i < count($this->pictures)); $i++) { 
+			
+			$smallPicturesList[] = $this->pictures[$i];
 		}
 
 		return $smallPicturesList;
