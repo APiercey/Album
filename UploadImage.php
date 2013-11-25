@@ -42,7 +42,8 @@ if (isset($_POST['btnUpload']) )
 		}
 		if(move_uploaded_file($fileTempPath, $filePath)) {
 
-			$query = "INSERT INTO picture (OwnerID, FileName, Title, Description) VALUES (".$user->getUserID().", '".$_FILES['txtUpload']['name']."', '".$_POST['Title']."', '".$_POST['Description']."')";
+			$description = mysqli_real_escape_string($connection, $_POST['Description']);
+			$query = "INSERT INTO picture (OwnerID, FileName, Title, Description) VALUES (".$user->getUserID().", '".$_FILES['txtUpload']['name']."', '".$_POST['Title']."', '".$description."')";
 			$connection->query($query) or die("error" . mysqli_errno($connection) . $query);
 			$user->loadPictures();
 		}
@@ -69,7 +70,7 @@ if (isset($_POST['btnUpload']) )
 		echo "Error happened while uploading the file(s). Try again late<br/>"; 
 	}
 }
-var_dump($user->getPictures(0, 10));
+
 ?>
 <h3>Upload your Picture(accepted picture types: JPEG, GIF, PNG)</h3>
 <form action='UploadImage.php' method='post' enctype="multipart/form-data">

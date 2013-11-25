@@ -30,7 +30,11 @@ class Picture
 	}
 	public function getThumbnail()
 	{
-		return 0;
+		return "thumbnails/".$this->fileName;
+	}
+	public function getLargeImage()
+	{
+		return "images/".$this->fileName;
 	}
 }
 ?>

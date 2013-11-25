@@ -1,9 +1,33 @@
+<?php 
+include 'header.php';
+
+$largePicture = null;
+
+if( isset($_GET['pictureid']) ) {
+
+	$largePicture = $user->getPicture($_GET['pictureid']);
+}
+else {
+	$largePicture = $user->getPicture(1);
+}
+
+?>
 <div class="albumHead">
-	<h2>Alexander's Album</h2>
+	<h2><?php echo $user->getName(); ?>'s Album</h2>
 	<h3>The Grand Canyon Aerial View</h3>
 </div>
 <div class="imageInfo">
-	<img src="images/Greenland_scenery.jpg" alt="greenland" title="The Grand Canyon" width="">
+	<?php 
+	if($largePicture) {
+
+		echo "<img src='".$largePicture->getLargeImage()."' alt='".$largePicture->getTitle()."' title='".$largePicture->getTitle()."'>";
+	}
+	else {
+
+		echo "<h3 class='error'>You have not uploaded any pictures yet!</h3>";
+	}
+	?>
+	
 	<p>The extreme north of Greenland, Peary Land, is not
 	covered by an ice sheet, because the air there is too
 	dry to produce snow, which is essential in the production
@@ -29,16 +53,18 @@
 </p>
 </div>
 <div class="thumbnails">
-	<img src="thumbnails/Greenland_scenery_thumbnail.jpg" alt="#" title="#">
-	<img src="thumbnails/images_thumbnail.jpg" alt="#" title="#">
-	<img src="thumbnails/index_thumbnail.jpg" alt="#" title="#">
-	<img src="thumbnails/index1_thumbail.jpg" alt="#" title="#">
-	<img src="thumbnails/natural-scenery-7_thumbnail.jpg" alt="#" title="#">
-	<img src="thumbnails/scenery1_thumbnail.jpg" alt="#" title="#">
-	<img src="thumbnails/white-scenery_00432767_thumbnail.jpg" alt="#" title="#">
+	<?php 
+		$pictures = $user->getPictures(0, 7);
+		foreach ($pictures as $picture) {
+
+			echo "<a href='myalbum.php?pictureid=".$picture->getPictureID()."'><img src='".$picture->getThumbnail()."' alt='".$picture->getTitle()."' title='".$picture->getTitle()."'></a>";
+		}
+	?>
+
 </div>
 <div class="thumbnailsFooter">
 	<span class="prev"><a href="myalbum.php?action=prev" title="Previous thumbnails">&#60; Prev</a></span>
 	<span class="thumbnailInfo">Displaying 1 to 7 of 21 thumbnails</span>
 	<span class="next"><a href="myalbum.php?action=next" title="Next thumbnails">Next &#62; </a></span>
 </div>
+<?php include 'footer.php'; ?>

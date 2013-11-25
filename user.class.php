@@ -28,28 +28,10 @@ class User
 	{
 		return $this->userID;
 	}
-	public function getPictures($index, $amount)
-	{
-		$smallPicturesList = array();
-
-		if($index < 0) {
-
-			$index = 0;
-		}
-
-		for ($i = $index; $i < $amount; $i++) { 
-			
-			if($index + $amount > count($this->pictures)) {
-				break;
-			}
-
-			$smallPicturesList[] = $this->pictures[$index];
-		}
-
-		return $smallPicturesList;
-	}
+	
 	public function loadPictures()
 	{
+		$this->pictures = array();
 		$conn = mysqli_connect('localhost', 'PHPSCRIPT', '1234', 'Album');
 
 		if($conn) {
@@ -60,10 +42,44 @@ class User
 			
 			while( $row = $result->fetch_assoc() ) {
 
-				$this->pictures[] = new Picture($row["pictureID"], $row["title"], $row["desc"], $row["fileName"]);
+				$this->pictures[] = new Picture($row["PictureId"], $row["Title"], $row["Description"], $row["FileName"]);
 			}
 		}
 
 		$conn->close();
+	}
+	public function getPictures($index, $amount)
+	{
+		$smallPicturesList = array();
+
+		if($index < 0) {
+
+			$index = 0;
+		}
+
+		for ($i = $index; $i < ($index + $amount || count($this->pictures)); $i++) { 
+			echo $i;
+			echo "here";
+			$smallPicturesList[] = $this->pictures[$index];
+		}
+
+		return $smallPicturesList;
+	}
+	public function getPicture($pictureID) 
+	{
+		$result = false;
+		if( isset($this->pictures[$pictureID - 1]) ) {
+
+			foreach ($this->pictures as $picture) {
+
+				if($picture->getPictureID() == $pictureID) {
+
+					$result = $picture;
+					break;
+				}
+			}
+		}
+		
+		return $result;
 	}
 }
