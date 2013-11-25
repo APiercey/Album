@@ -1,4 +1,5 @@
 <?php
+include 'header.php';
 
 define("ORIGINAL_IMAGE_DESTINATION", "./original"); 
 define("IMAGE_DESTINATION", "./images"); 
@@ -39,38 +40,37 @@ if (isset($_POST['btnUpload']) )
 			$i++;
 			$filePath = $dir."/".$fileName."_".$i.".".$ext;
 		}
-		move_uploaded_file($fileTempPath, $filePath);
+		if(move_uploaded_file($fileTempPath, $filePath)) {
+
+			$query = "INSERT INTO picture (OwnerID, FileName, Title, Description) VALUES (".$user->getUserID().", '".$_FILES['txtUpload']['name']."', '".$_POST['Title']."', '".$_POST['Description']."')";
+			$connection->query($query) or die("error" . mysqli_errno($connection) . $query);
+			$user->loadPictures();
+		}
 		
-	 }
+	}
 	$imageDetails = getimagesize($filePath);
 		
-		if ($imageDetails && in_array($imageDetails[2], $supportedImageTypes))
-		{
-			resamplePicture($filePath, IMAGE_DESTINATION, IMAGE_MAX_WIDTH, IMAGE_MAX_HEIGHT);
-			
-			resamplePicture($filePath, THUMB_DESTINATION, THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT);
-		}
-		elseif ($_FILES['txtUpload']['error'][$j]  == 1)
-		{			
-			echo "$fileName is too large<br/>";
-		}
-		elseif ($_FILES['txtUpload']['error'][$j]  == 4)
-		{
-			echo "No upload file specified<br/>"; 
-		}
-		else
-		{
-			echo "Error happened while uploading the file(s). Try again late<br/>"; 
-		}
+	if ($imageDetails && in_array($imageDetails[2], $supportedImageTypes))
+	{
+		resamplePicture($filePath, IMAGE_DESTINATION, IMAGE_MAX_WIDTH, IMAGE_MAX_HEIGHT);
+		
+		resamplePicture($filePath, THUMB_DESTINATION, THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT);
+	}
+	elseif ($_FILES['txtUpload']['error'][$j]  == 1)
+	{			
+		echo "$fileName is too large<br/>";
+	}
+	elseif ($_FILES['txtUpload']['error'][$j]  == 4)
+	{
+		echo "No upload file specified<br/>"; 
+	}
+	else
+	{
+		echo "Error happened while uploading the file(s). Try again late<br/>"; 
+	}
 }
+var_dump($user->getPictures(0, 10));
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Online Album</title>
-</head>
-<body>
 <h3>Upload your Picture(accepted picture types: JPEG, GIF, PNG)</h3>
 <form action='UploadImage.php' method='post' enctype="multipart/form-data">
   <table>
@@ -94,6 +94,4 @@ if (isset($_POST['btnUpload']) )
 	</table>
 	<br/>
 </form>
-
-</body>
-</html>
+<?php include 'footer.php'; ?>

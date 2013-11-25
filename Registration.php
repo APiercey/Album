@@ -1,8 +1,7 @@
-<?php require_once("connection.php"); ?>
 <?php
-session_start();
-require_once("functions.php"); 
 	
+	include 'header.php';
+
 	extract($_POST);
 	
 	$valid = false;
@@ -42,7 +41,14 @@ require_once("functions.php");
 								
 			if (mysqli_query($connection, $insertUser))
 			{
-				$_SESSION["name"] = 
+				
+				$result = mysqli_query($connection, "SELECT * FROM user WHERE email = '$txtEmail' AND password = '$txtPassword'") or die(mysql_errno());
+
+				while($row = mysqli_fetch_assoc($connection, $result)) {
+
+					$_SESSION['user'] = new User($row['userID'], $row['name']);
+				}
+				
 				header("Location: UploadImage.php");
 				mysqli_close($connection);
 				exit();
@@ -91,13 +97,6 @@ require_once("functions.php");
 	
 ?>
 
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Online Album</title>
-</head>
-
-<body>
 <h3>To start, please enter the required registration data</h3>
 <form id="form1" name="form1" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
   <table width="486">
@@ -127,6 +126,5 @@ require_once("functions.php");
     </tr>
   </table>
 </form>
-</body>
-</html>
 
+<?php include 'footer.php'; ?>

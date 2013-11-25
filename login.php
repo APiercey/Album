@@ -1,7 +1,34 @@
 <?php include 'header.php'; ?>
-<form action="<?php echo $_SERVER['PHP_SELF']; ?>">
+<?php 
+$msg = "";
+extract($_POST);
+if( isset($login) ) {
 
-<label for="username">Username:</label><input type="text" name="username">
+	if(trim($email) == "" ||
+	   trim($password) == "") {
+
+		$msg = "Please provide both email address and password";
+	}
+	else {
+
+		$query = "SELECT UserId, Name FROM user WHERE email = '".$email."' AND password = '".sha1($password)."'";
+		$result = $connection->query($query) or die("error".mysql_errno().": ".$query);
+		echo $result->num_rows;
+		while( $row = $result->fetch_assoc() ) {
+
+			$_SESSION['user'] = new User($row['UserId'], $row['Name']);
+			var_dump($row);
+			header('Location: UploadImage.php');
+			$connection->close();
+			exit;
+		}
+	}
+}
+?>
+<h3 class="error"><?php echo $msg; ?></h3>
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+
+<label for="email">Email:</label><input type="text" name="email">
 <label for="password">Password:</label><input type="password" name="password">
 <input type="submit" name="login" value="login">
 
