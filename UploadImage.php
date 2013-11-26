@@ -1,4 +1,5 @@
 <?php
+$protected = true;
 include 'header.php';
 
 define("ORIGINAL_IMAGE_DESTINATION", "./original"); 
