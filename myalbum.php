@@ -51,28 +51,29 @@ else {
 			echo "<a href='myalbum.php?pictureid=".$picture->getPictureID()."&index=".$index."'><img src='".$picture->getThumbnail()."' alt='".$picture->getTitle()."' title='".$picture->getTitle()."'></a>";
 		}
 	?>
+	<div class="thumbnailsFooter">
+		<?php
+		$getVars = "";
+		if ( isset($_GET['pictureid']) ) {
+			$getVars .= "&pictureid=".$_GET['pictureid'];
+		}
+		?>
+		<?php
+		if($index > 0) {
 
+			echo '<span class="prev"><a href="myalbum.php?index='.($index - $amount).$getVars.'" title="Previous thumbnails">&#60; Prev</a></span>';
+		}
+		?>
+		
+		
+		<?php 
+		if($index + $amount <= $user->numOfPictures()) {
+
+			echo '<span class="next"><a href="myalbum.php?index='.($index + $amount).$getVars.'" title="Next thumbnails">Next &#62; </a></span>';
+		}
+		?>
+		<span class="thumbnailInfo"><?php echo "Displaying ".($index + 1)." to ".($index + count($pictures))." of ".$user->numOfPictures()." total thumbnails."; ?></span>
+	</div>
 </div>
-<div class="thumbnailsFooter">
-	<?php
-	$getVars = "";
-	if ( isset($_GET['pictureid']) ) {
-		$getVars .= "&pictureid=".$_GET['pictureid'];
-	}
-	?>
-	<?php
-	if($index > 0) {
 
-		echo '<span class="prev"><a href="myalbum.php?index='.($index - $amount).$getVars.'" title="Previous thumbnails">&#60; Prev</a></span>';
-	}
-	?>
-	
-	<span class="thumbnailInfo"><?php echo "Displaying ".($index + 1)." to ".($index + count($pictures))." of ".$user->numOfPictures()." total thumbnails."; ?></span>
-	<?php 
-	if($index + $amount <= $user->numOfPictures()) {
-
-		echo '<span class="next"><a href="myalbum.php?index='.($index + $amount).$getVars.'" title="Next thumbnails">Next &#62; </a></span>';
-	}
-	?>
-</div>
 <?php include 'footer.php'; ?>
