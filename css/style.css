@@ -51,9 +51,14 @@ nav ul li a, nav ul li a:hover, nav ul li a:visited, nav ul li a:active {
 	text-decoration: none;
 	font-size: 2em;
 }
-form {
-	float: left;
+.loginForm {
 	width: 32em;
+	margin: 0 auto;
+}
+.loginHead {
+	text-align: center;
+	font-size: 3em;
+	font-weight: 400;
 }
 label {
 	float: left;
@@ -133,4 +138,3 @@ input[type="file"] {
 	background-color: grey;
 
 }
-/* test */

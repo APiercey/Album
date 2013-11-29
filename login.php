@@ -25,8 +25,9 @@ if( isset($login) ) {
 	}
 }
 ?>
+<h2 class="loginHead">Welcome! Please login to MyAlbum</h2>
 <h3 class="error"><?php echo $msg; ?></h3>
-<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+<form class="loginForm" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
 
 <label for="email">Email:</label><input type="text" name="email">
 <label for="password">Password:</label><input type="password" name="password">
