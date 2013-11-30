@@ -19,19 +19,27 @@ if( isset($_SESSION['user'])) {
 	<link rel="stylesheet" href="css/style.css">
 	<meta charset="UTF-8">
 	<title>Document</title>
+	<script type="text/javascript">
+
+		function popup()
+		{
+			window.open("UploadImage.php", "UploadImage", "status=0,location=0,menubar=0,toolbar=0,resizable=0,scrollbars=0,width=680,height=400");
+	        return false;
+		}
+	</script>
 </head>
 <body>
-	
+
 	<header>
 		<div class="title">MyA<span class="kern">l</span><span class="nokern">b</span>um</div>
 		<nav>
 			<ul>
-				<?php 
+				<?php
 				if( $user != null ) {
 
 					echo '<li><a href="logout.php">Logout</a></li>';
 					echo '<li><a href="myalbum.php">My Album</a></li>';
-					echo '<li><a href="#" onclick="popuploadimage()">Upload Picture</a></li>';
+					echo '<li><a href="#" onclick="popup()">Upload Picture</a></li>';
 				}
 				else {
 
