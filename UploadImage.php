@@ -1,4 +1,9 @@
 <?php
+include 'user.class.php';
+include 'picture.class.php';
+include 'connection.php';
+include 'functions.php';
+
 session_start();
 
 $user = null;
