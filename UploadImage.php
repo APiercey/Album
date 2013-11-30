@@ -65,7 +65,6 @@ if (isset($_POST['btnUpload']) )
 			$description = mysqli_real_escape_string($connection, $_POST['Description']);
 			$query = "INSERT INTO picture (OwnerID, FileName, Title, Description) VALUES (".$user->getUserID().", '".$_FILES['txtUpload']['name']."', '".$_POST['Title']."', '".$description."')";
 			$connection->query($query) or die("error" . mysqli_errno($connection) . $query);
-			$user->loadPictures();
 		}
 		
 	}

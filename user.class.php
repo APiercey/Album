@@ -45,7 +45,6 @@ class User
 				$this->pictures[] = new Picture($row["PictureId"], $row["Title"], $row["Description"], $row["FileName"]);
 			}
 		}
-
 		$conn->close();
 	}
 	public function getPictures($index, $amount)

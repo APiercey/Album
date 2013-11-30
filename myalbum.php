@@ -1,7 +1,7 @@
 <?php 
 $protected = true;
 include 'header.php';
-
+$user->loadPictures();
 $largePicture = null;
 
 if( isset($_GET['pictureid']) ) {

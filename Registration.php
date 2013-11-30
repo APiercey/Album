@@ -1,5 +1,4 @@
 <?php
-	
 	include 'header.php';
 
 	extract($_POST);
@@ -42,21 +41,23 @@
 			if (mysqli_query($connection, $insertUser))
 			{
 				
-				$result = mysqli_query($connection, "SELECT * FROM user WHERE email = '$txtEmail' AND password = '$txtPassword'") or die(mysql_errno());
-
-				while($row = mysqli_fetch_assoc($connection, $result)) {
-
-					$_SESSION['user'] = new User($row['userID'], $row['name']);
-				}
+				$result = mysqli_query($connection, "SELECT * FROM User WHERE Email = '$txtEmail' AND Password = '$hash'") or die(mysql_error());
 				
-				header("Location: UploadImage.php");
-				mysqli_close($connection);
-				exit();
+				while($row = mysqli_fetch_assoc($result)) {
+
+					$_SESSION['user'] = new User($row['UserId'], $row['Name']);
+				}
+
+				if(isset($_SESSION['user'])) {
+					header("Location: myalbum.php");
+					mysqli_close($connection);
+					exit();	
+				}
+							
 			}
 			else
 			{
-				mysqli_close($connection);
-				die("The system is not available, try again later");
+				echo "That username has already been taken.";
 			}
 		}
 	}
