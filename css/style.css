@@ -133,3 +133,12 @@ input[type="file"] {
 	margin: 0 auto;
 
 }
+.error {
+	color: red;
+}
+footer {
+	float: left;
+	clear: left;
+	width: 100%;
+	text-align: center;
+}
