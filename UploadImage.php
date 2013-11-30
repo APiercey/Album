@@ -41,7 +41,7 @@ if (isset($_POST['btnUpload']) )
 				$i = 0;
 				while( file_exists( IMAGE_DESTINATION.$newName ) ) {
 				
-					$newName = $imageNameInfo[0].'_'.$i.$newName[1];
+					$newName = $imageNameInfo[0].'_'.$i.'.'.$imageNameInfo[1];
 				} 
 
 				if(	move_uploaded_file( $_FILES['txtUpload']['tmp_name'], IMAGE_DESTINATION.$newName)) {
