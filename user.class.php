@@ -67,21 +67,23 @@ class User
 	public function getPicture($pictureID) 
 	{ 
 		$result = false; 
-		if($pictureID == "first") {
-			$result = $this->pictures[0];
-		}
-		else {
+		if( isset($this->pictures[0]) )
+		{
+			if($pictureID == "first") {
+				$result = $this->pictures[0];
+			}
+			else {
 
-			foreach ($this->pictures as $picture) { 
+				foreach ($this->pictures as $picture) { 
 
-				if($picture->getPictureID() == $pictureID) { 
+					if($picture->getPictureID() == $pictureID) { 
 
-					$result = $picture; 
-					break; 
+						$result = $picture; 
+						break; 
+					} 
 				} 
-			} 
+			}
 		}
-		
 
 		return $result; 
 	}

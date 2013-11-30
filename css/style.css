@@ -45,11 +45,14 @@ nav ul li {
 	list-style: none;
 	padding: .5em 1em;
 }
-nav ul li a, nav ul li a:hover, nav ul li a:visited, nav ul li a:active {
+nav ul li a, nav ul li a:visited, nav ul li a:active {
 	color: #000000;
 	font-style: none;
 	text-decoration: none;
 	font-size: 2em;
+}
+nav ul li a:hover {
+	color: blue;
 }
 .loginForm {
 	width: 32em;
