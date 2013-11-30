@@ -20,11 +20,8 @@ if($user == null) {
 
 define("ORIGINAL_IMAGE_DESTINATION", "./original"); 
 define("IMAGE_DESTINATION", "./images"); 
-define("IMAGE_MAX_WIDTH", 600);
-define("IMAGE_MAX_HEIGHT", 400);
-define("THUMB_DESTINATION", "./thumbnails");  
-define("THUMB_MAX_WIDTH",60);
-define("THUMB_MAX_HEIGHT",40);
+define("THUMB_DESTINATION", "./thumbnails");
+
 
 $error = "";
 
@@ -62,31 +59,15 @@ if (isset($_POST['btnUpload']) )
 
 		if(move_uploaded_file($fileTempPath, $filePath)) {
 
+			formatImage($filePath);
+
+			createThumbnail($filePath, THUMB_DESTINATION.'/'.$fileName.$ext);
+
 			$description = mysqli_real_escape_string($connection, $_POST['Description']);
 			$query = "INSERT INTO picture (OwnerID, FileName, Title, Description) VALUES (".$user->getUserID().", '".$_FILES['txtUpload']['name']."', '".$_POST['Title']."', '".$description."')";
 			$connection->query($query) or die("error" . mysqli_errno($connection) . $query);
 		}
 		
-	}
-	$imageDetails = getimagesize($filePath);
-		
-	if ($imageDetails && in_array($imageDetails[2], $supportedImageTypes))
-	{
-		resamplePicture($filePath, IMAGE_DESTINATION, IMAGE_MAX_WIDTH, IMAGE_MAX_HEIGHT);
-		
-		resamplePicture($filePath, THUMB_DESTINATION, THUMB_MAX_WIDTH, THUMB_MAX_HEIGHT);
-	}
-	elseif ($_FILES['txtUpload']['error'][$j]  == 1)
-	{			
-		echo "$fileName is too large<br/>";
-	}
-	elseif ($_FILES['txtUpload']['error'][$j]  == 4)
-	{
-		echo "No upload file specified<br/>"; 
-	}
-	else
-	{
-		echo "Error happened while uploading the file(s). Try again late<br/>"; 
 	}
 }
 
