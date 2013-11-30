@@ -12,6 +12,7 @@ else {
 	$largePicture = $user->getPicture(1);
 }
 ?>
+
 <div class="albumHead">
 	<h2><?php echo $user->getName(); ?>'s Album</h2>
 	<h3><?php if($largePicture) echo $largePicture->getTitle(); ?></h3>
@@ -37,6 +38,7 @@ else {
 	?>
 </p>
 </div>
+
 <div class="thumbnails">
 	<?php 
 		$index = 0;
@@ -75,5 +77,4 @@ else {
 		<span class="thumbnailInfo"><?php echo "Displaying ".($index + 1)." to ".($index + count($pictures))." of ".$user->numOfPictures()." total thumbnails."; ?></span>
 	</div>
 </div>
-
 <?php include 'footer.php'; ?>

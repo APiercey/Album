@@ -1,6 +1,17 @@
 <?php
-$protected = true;
-include 'header.php';
+session_start();
+
+$user = null;
+if(isset($_SESSION['user'])) {
+
+	$user = $_SESSION['user'];	
+}
+if($user == null) {
+
+	echo "You must be logged in to view this page.";
+	include 'footer.php';
+	die();
+}
 
 define("ORIGINAL_IMAGE_DESTINATION", "./original"); 
 define("IMAGE_DESTINATION", "./images"); 
@@ -27,6 +38,7 @@ if (isset($_POST['btnUpload']) )
 			mkdir($destination);
 		}
 		
+
 		$fileTempPath = $_FILES['txtUpload']['tmp_name'];
 		$filePath = $destination."/".$_FILES['txtUpload']['name'];
 		
@@ -35,12 +47,14 @@ if (isset($_POST['btnUpload']) )
 		$fileName = $pathInfo['filename'];
 		$ext = $pathInfo['extension'];
 		
-		$i="";
+		//Makes sure there is a unique name
+		$i = 0;
 		while (file_exists($filePath))
 		{	
 			$i++;
 			$filePath = $dir."/".$fileName."_".$i.".".$ext;
 		}
+
 		if(move_uploaded_file($fileTempPath, $filePath)) {
 
 			$description = mysqli_real_escape_string($connection, $_POST['Description']);
@@ -91,9 +105,15 @@ if (isset($_POST['btnUpload']) )
 			</tr>
 			<tr>
 				<td ><input type='submit' class='button' name='btnUpload' value='Upload' /></td>&nbsp;&nbsp;
-					<td><input type='submit' class='button' name='btnDone' value='Done' /></td>
+					<td><input type='submit' class='button' name='btnDone' value='Done' onclick='uploadFinish()'/></td>
      </tr>
 	</table>
 	<br/>
 </form>
-<?php include 'footer.php'; ?>
+<script type="text/javascript">
+	function uploadFinish()
+	{
+		opener.location="MyAlbum.php";
+		close();
+	}
+</script>

@@ -18,7 +18,7 @@ if( isset($login) ) {
 
 			$_SESSION['user'] = new User($row['UserId'], $row['Name']);
 			var_dump($row);
-			header('Location: UploadImage.php');
+			header('Location: myalbum.php');
 			$connection->close();
 			exit;
 		}

@@ -21,6 +21,7 @@ if( isset($_SESSION['user'])) {
 	<title>Document</title>
 </head>
 <body>
+	
 	<header>
 		<div class="title">MyA<span class="kern">l</span><span class="nokern">b</span>um</div>
 		<nav>
@@ -29,6 +30,8 @@ if( isset($_SESSION['user'])) {
 				if( $user != null ) {
 
 					echo '<li><a href="logout.php">Logout</a></li>';
+					echo '<li><a href="myalbum.php">My Album</a></li>';
+					echo '<li><a href="#" onclick="popuploadimage()">Upload Picture</a></li>';
 				}
 				else {
 
@@ -36,8 +39,6 @@ if( isset($_SESSION['user'])) {
 					echo '<li><a href="registration.php">Register</a></li>';
 				}
 				?>
-				<li><a href="myalbum.php">My Album</a></li>
-				<li><a href="uploadimage.php">Upload Picture</a></li>
 			</ul>
 		</nav>
 	</header>
