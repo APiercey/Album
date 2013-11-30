@@ -45,6 +45,7 @@ class User
 				$this->pictures[] = new Picture($row["PictureId"], $row["Title"], $row["Description"], $row["FileName"]);
 			}
 		}
+
 		$conn->close();
 	}
 	public function getPictures($index, $amount)
@@ -64,22 +65,27 @@ class User
 		return $smallPicturesList;
 	}
 	public function getPicture($pictureID) 
-	{
-		$result = false;
-		if( isset($this->pictures[$pictureID - 1]) ) {
+	{ 
+		$result = false; 
+		if($pictureID == "first") {
+			$result = $this->pictures[0];
+		}
+		else {
 
-			foreach ($this->pictures as $picture) {
+			foreach ($this->pictures as $picture) { 
 
-				if($picture->getPictureID() == $pictureID) {
+				if($picture->getPictureID() == $pictureID) { 
 
-					$result = $picture;
-					break;
-				}
-			}
+					$result = $picture; 
+					break; 
+				} 
+			} 
 		}
 		
-		return $result;
+
+		return $result; 
 	}
+
 	public function numOfPictures()
 	{
 		return count($this->pictures);

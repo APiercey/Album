@@ -1,16 +1,21 @@
 <?php 
 $protected = true;
 include 'header.php';
+
 $user->loadPictures();
 $largePicture = null;
 
 if( isset($_GET['pictureid']) ) {
 
 	$largePicture = $user->getPicture($_GET['pictureid']);
+	
 }
-else {
-	$largePicture = $user->getPicture(1);
+
+if($largePicture == null || $largePicture == false) {
+
+	$largePicture = $user->getPicture("first");
 }
+
 ?>
 
 <div class="albumHead">
@@ -25,7 +30,7 @@ else {
 	}
 	else {
 
-		echo "<h3 class='error'>You have not uploaded any pictures yet!</h3>";
+		echo "<h3 class='error'>You have not uploaded any pictures yet or that picture doesn't exist!</h3>";
 	}
 	?>
 	

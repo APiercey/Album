@@ -117,11 +117,7 @@ input[type="file"] {
 	float: left;
 	width: 100%;
 }
-.thumbnails img {
-	padding: .75em;
-	width: 100px;
-	height: 62px;
-}
+
 .thumbnailsFooter {
 	text-align: center;
 	width: 100%;
