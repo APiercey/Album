@@ -18,61 +18,62 @@ if($user == null) {
 	die();
 }
 
-define("ORIGINAL_IMAGE_DESTINATION", "./original"); 
-define("IMAGE_DESTINATION", "./images"); 
-define("THUMB_DESTINATION", "./thumbnails");
-
-
-$error = "";
+define("ORIGINAL_IMAGE_DESTINATION", "./original/"); 
+define("IMAGE_DESTINATION", "./images/"); 
+define("THUMB_DESTINATION", "./thumbnails/");
 
 $supportedImageTypes = array(IMAGETYPE_GIF, IMAGETYPE_JPEG, IMAGETYPE_PNG);
 
-include "functionResizeimage.php";
+$msg = "";
 
 if (isset($_POST['btnUpload']) ) 
 {
-	if ($_FILES['txtUpload']['error'] == 0 && $_FILES['txtUpload']['error'] == 0)
-	{
-		$destination = ORIGINAL_IMAGE_DESTINATION;  	// define the path to a folder to save the file
+	if( !$_FILES['txtUpload']['error'] > 0 ) {
 
-		if (!file_exists($destination))
-		{
-			mkdir($destination);
+		if( $_FILES['txtUpload']['type'] == "image/gif"
+		 || $_FILES['txtUpload']['type'] == "image/png" 
+		 || $_FILES['txtUpload']['type'] == "image/jpeg" ) {
+
+			if( $_FILES['txtUpload']['size'] < 2000000 ) {
+
+				$imageNameInfo = explode('.', $_FILES['txtUpload']['name']);
+				$newName = $_FILES['txtUpload']['name'];
+				$i = 0;
+				while( file_exists( IMAGE_DESTINATION.$newName ) ) {
+				
+					$newName = $imageNameInfo[0].'_'.$i.$newName[1];
+				} 
+
+				if(	move_uploaded_file( $_FILES['txtUpload']['tmp_name'], IMAGE_DESTINATION.$newName)) {
+
+					$msg = $_FILES['txtUpload']['name']." uploaded successfully!";
+					formatImage(IMAGE_DESTINATION.$_FILES['txtUpload']['name']);
+					createThumbnail(IMAGE_DESTINATION.$_FILES['txtUpload']['name'],
+									THUMB_DESTINATION.$_FILES['txtUpload']['name']);
+
+					$description = mysqli_real_escape_string($connection, $_POST['Description']);
+					$query = "INSERT INTO picture (OwnerID, FileName, Title, Description) VALUES (".$user->getUserID().", '".$_FILES['txtUpload']['name']."', '".$_POST['Title']."', '".$description."')";
+					$connection->query($query) or die("error" . mysqli_errno($connection) . $query);
+					
+				} else {
+					$msg = "Unknown error uploading ".$_FILES['txtUpload']['name'];
+				}
+			} else {
+				$msg = "Error uploading ".$_FILES['txtUpload']['name'].": you
+				can only upload files that are smaller than 20mb.";
+			}
+		} else { 
+			$msg = "Error uploading ".$_FILES['txtUpload']['name'].": you 
+			can only upload images of the file types: GIF,PNG JPEG."; 
 		}
-		
-
-		$fileTempPath = $_FILES['txtUpload']['tmp_name'];
-		$filePath = $destination."/".$_FILES['txtUpload']['name'];
-		
-		$pathInfo = pathinfo($filePath);
-		$dir = $pathInfo['dirname'];
-		$fileName = $pathInfo['filename'];
-		$ext = $pathInfo['extension'];
-		
-		//Makes sure there is a unique name
-		$i = 0;
-		while (file_exists($filePath))
-		{	
-			$i++;
-			$filePath = $dir."/".$fileName."_".$i.".".$ext;
-		}
-
-		if(move_uploaded_file($fileTempPath, $filePath)) {
-
-			formatImage($filePath);
-
-			createThumbnail($filePath, THUMB_DESTINATION.'/'.$fileName.$ext);
-
-			$description = mysqli_real_escape_string($connection, $_POST['Description']);
-			$query = "INSERT INTO picture (OwnerID, FileName, Title, Description) VALUES (".$user->getUserID().", '".$_FILES['txtUpload']['name']."', '".$_POST['Title']."', '".$description."')";
-			$connection->query($query) or die("error" . mysqli_errno($connection) . $query);
-		}
-		
+	} else {
+		$msg = "Error: no file selected";
 	}
 }
 
 ?>
 <h3>Upload your Picture(accepted picture types: JPEG, GIF, PNG)</h3>
+<?php if($msg != "") echo "<h3>$msg</h3>"; ?>
 <form action='UploadImage.php' method='post' enctype="multipart/form-data">
   <table>
     		<tr>

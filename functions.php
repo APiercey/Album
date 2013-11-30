@@ -11,7 +11,7 @@ function formatImage($filePath) {
 							IMAGE_WIDTH, 
 							IMAGE_HEIGHT        
 						);
-	echo $filePath;
+
 	if(preg_match("/[.][j][p][g]/", $filePath))		$sourceImage = imagecreatefromjpeg($filePath);
 	elseif(preg_match("/[.][p][n][g]/", $filePath))	$sourceImage = imagecreatefrompng($filePath);
 	elseif(preg_match("/[.][g][i][f]/", $filePath))	$sourceImage = imagecreatefromgif($filePath);

@@ -27,21 +27,14 @@ if($largePicture == null || $largePicture == false) {
 	if($largePicture) {
 
 		echo "<img src='".$largePicture->getLargeImage()."' alt='".$largePicture->getTitle()."' title='".$largePicture->getTitle()."'>";
+		echo "<p>".$largePicture->getDescription()."</p>";
 	}
 	else {
 
 		echo "<h3 class='error'>You have not uploaded any pictures yet or that picture doesn't exist!</h3>";
 	}
 	?>
-	
-	<p>
-    <?php
-	if($largePicture) {
-		
-		echo $largePicture->getDescription();
-	}
-	?>
-</p>
+
 </div>
 
 <div class="thumbnails">
