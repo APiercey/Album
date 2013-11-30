@@ -75,26 +75,25 @@ if (isset($_POST['btnUpload']) )
 <h3>Upload your Picture(accepted picture types: JPEG, GIF, PNG)</h3>
 <?php if($msg != "") echo "<h3>$msg</h3>"; ?>
 <form action='UploadImage.php' method='post' enctype="multipart/form-data">
-  <table>
-    		<tr>
-				<td class='input' width="190" align="right"><label for="file">File To Upload</label> </td>
-				<td width="144"> <input type="file" name="txtUpload" id="txtUpload"  size="40" /></td>
-			</tr>
-            <tr>
-				<td class='input' width="190" align="right">Title</td>
-                <td width="144"><input type = "text" name = "Title"  /></td>
-                
-			</tr>
-            <tr>
-				<td class='input'align="right">Description</td>
-				<td><TEXTAREA name = "Description" ROWS=2 COLS=20></TEXTAREA></td>
-			</tr>
-			<tr>
-				<td ><input type='submit' class='button' name='btnUpload' value='Upload' /></td>&nbsp;&nbsp;
-					<td><input type='submit' class='button' name='btnDone' value='Done' onclick='uploadFinish()'/></td>
-     </tr>
+	<table>
+		<tr>
+			<td class='input' width="190" align="right"><label for="file">File To Upload</label> </td>
+			<td width="144"> <input type="file" name="txtUpload" id="txtUpload"  size="40" /></td>
+		</tr>
+        <tr>
+			<td class='input' width="190" align="right">Title</td>
+            <td width="144"><input type = "text" name = "Title"  /></td>
+            
+		</tr>
+        <tr>
+			<td class='input'align="right">Description</td>
+			<td><TEXTAREA name = "Description" ROWS=2 COLS=20></TEXTAREA></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type='submit' name='btnUpload' value='Upload' /><input type='submit' name='btnDone' value='Done' onclick='uploadFinish()'/></td>
+		</tr>
 	</table>
-	<br/>
 </form>
 <script type="text/javascript">
 	function uploadFinish()
