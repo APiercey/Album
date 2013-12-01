@@ -10,15 +10,13 @@ $user = null;
 if( isset($_SESSION['user'])) {
 	$user = $_SESSION['user'];	
 }
-
-
 ?>
 <!doctype html>
 <html lang="en">
 <head>
 	<link rel="stylesheet" href="css/style.css">
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title><?php if( isset($title) ) echo trim($title)." - MyAlbum Application"; else echo "MyAlbum Application"; ?></title>
 	<script type="text/javascript">
 
 		function popup()

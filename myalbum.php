@@ -1,4 +1,5 @@
 <?php 
+$title = "My Album";
 $protected = true;
 include 'header.php';
 

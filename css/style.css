@@ -91,7 +91,7 @@ input[type="file"] {
 	padding: .2em 1em;
 }
 .wrapper {
-	width:70em;
+	width:69.6em;
 	margin: 0 auto;
 }
 .albumHead {
@@ -106,14 +106,16 @@ input[type="file"] {
 .imageInfo {
 	float: left;
 	clear: left;
+	border-top:#000000 1px solid;
+	width: 100%;
 }
 .imageInfo img {
 	padding: 1em;
 	float: left;
 }
 .imageInfo p {
-	float: left;
 	font-size: 1.5em;
+	text-align: justify;
 }
 .thumbnails {
 	padding: .5em;
@@ -123,6 +125,17 @@ input[type="file"] {
 .thumbnailsFooter {
 	text-align: center;
 	width: 100%;
+	font-size: 1.5em;
+}
+.prev a, .next a {
+	display: block;
+	padding: .2em;
+	color: blue;
+	text-decoration: none;
+}
+.prev a:hover, .next a:hover {
+	color: #ffffff;
+	background-color: blue;
 }
 .prev {
 	float: left;
@@ -143,4 +156,10 @@ footer {
 	clear: left;
 	width: 100%;
 	text-align: center;
+}
+.thumbnails img {
+	padding: .3em;
+}
+.thumbnails img:hover {
+	background-color: #377ff3;
 }

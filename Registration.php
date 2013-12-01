@@ -1,100 +1,101 @@
 <?php
-	include 'header.php';
+$title = "Register";
+include 'header.php';
 
-	extract($_POST);
-	
-	$valid = false;
-	$emailErrorMsg = '';
-	$nameErrorMsg = '';
-	$passwordErrorMsg = '';
-	$rePasswordErrorMsg = '';
-	
-	if(isset($btnRegister))
+extract($_POST);
+
+$valid = false;
+$emailErrorMsg = '';
+$nameErrorMsg = '';
+$passwordErrorMsg = '';
+$rePasswordErrorMsg = '';
+
+if(isset($btnRegister))
+{
+	$emailErrorMsg = validateEmail(trim($txtEmail)); 
+	if($emailErrorMsg != "")
 	{
-		$emailErrorMsg = validateEmail(trim($txtEmail)); 
-		if($emailErrorMsg != "")
-		{
-			$valid = true;
-		}
-		$nameErrorMsg = validateName(trim($txtName));
-		if($nameErrorMsg != "")
-		{
-			$valid = true;
-		}
-		$passwordErrorMsg = validatePassword(trim($txtPassword));
-		if($passwordErrorMsg != "")
-		{
-			$valid = true;
-		}
-		$rePasswordErrorMsg = validatePassword2($txtrepassword, $txtPassword);
-		if( $rePasswordErrorMsg != "" )
-		{
-			$valid = true;
-		}
+		$valid = true;
+	}
+	$nameErrorMsg = validateName(trim($txtName));
+	if($nameErrorMsg != "")
+	{
+		$valid = true;
+	}
+	$passwordErrorMsg = validatePassword(trim($txtPassword));
+	if($passwordErrorMsg != "")
+	{
+		$valid = true;
+	}
+	$rePasswordErrorMsg = validatePassword2($txtrepassword, $txtPassword);
+	if( $rePasswordErrorMsg != "" )
+	{
+		$valid = true;
+	}
+	
+	if (!$valid)
+	{
 		
-		if (!$valid)
+		$hash = sha1($txtPassword);
+		$insertUser = "INSERT INTO User (Email, Name, Password) VALUES('$txtEmail', '$txtName', '$hash')";
+							
+		if (mysqli_query($connection, $insertUser))
 		{
 			
-			$hash = sha1($txtPassword);
-			$insertUser = "INSERT INTO User (Email, Name, Password) VALUES('$txtEmail', '$txtName', '$hash')";
-								
-			if (mysqli_query($connection, $insertUser))
-			{
-				
-				$result = mysqli_query($connection, "SELECT * FROM User WHERE Email = '$txtEmail' AND Password = '$hash'") or die(mysql_error());
-				
-				while($row = mysqli_fetch_assoc($result)) {
+			$result = mysqli_query($connection, "SELECT * FROM User WHERE Email = '$txtEmail' AND Password = '$hash'") or die(mysql_error());
+			
+			while($row = mysqli_fetch_assoc($result)) {
 
-					$_SESSION['user'] = new User($row['UserId'], $row['Name']);
-				}
+				$_SESSION['user'] = new User($row['UserId'], $row['Name']);
+			}
 
-				if(isset($_SESSION['user'])) {
-					header("Location: myalbum.php");
-					mysqli_close($connection);
-					exit();	
-				}
-							
+			if(isset($_SESSION['user'])) {
+				header("Location: myalbum.php");
+				mysqli_close($connection);
+				exit();	
 			}
-			else
-			{
-				echo "That username has already been taken.";
-			}
+						
+		}
+		else
+		{
+			echo "That username has already been taken.";
 		}
 	}
-	if(isset($txtEmail))
-	{
-		$email  = $txtEmail;
-	}
-	else
-	{
-		$email = '';
-	}
-	if(isset($txtName))
-	{
-		$name  = $txtName;
-	}
-	else
-	{
-		$name = '';
-	}
-	if(isset($txtPassword))
-	{
-		$password  = $txtPassword;
-	}
-	else
-	{
-		$password = '';
-	}
-	if(isset($txtrepassword))
-	{
-		$repassword  = $txtrepassword;
-	}
-	else
-	{
-		$repassword = '';
-	}
-	
-	
+}
+if(isset($txtEmail))
+{
+	$email  = $txtEmail;
+}
+else
+{
+	$email = '';
+}
+if(isset($txtName))
+{
+	$name  = $txtName;
+}
+else
+{
+	$name = '';
+}
+if(isset($txtPassword))
+{
+	$password  = $txtPassword;
+}
+else
+{
+	$password = '';
+}
+if(isset($txtrepassword))
+{
+	$repassword  = $txtrepassword;
+}
+else
+{
+	$repassword = '';
+}
+
+
 	
 ?>
 

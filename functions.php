@@ -1,6 +1,6 @@
 <?php
-define("THUMBNAIL_WIDTH", 60);
-define("THUMBNAIL_HEIGHT", 40);
+define("THUMBNAIL_WIDTH", 112);
+define("THUMBNAIL_HEIGHT", 90);
 define("IMAGE_WIDTH", 600);
 define("IMAGE_HEIGHT", 400);
 
@@ -47,12 +47,14 @@ function formatImage($filePath) {
 				IMAGE_WIDTH, IMAGE_HEIGHT, 
 				IMAGE_WIDTH, IMAGE_HEIGHT)
 		) {
-			if($sourceImageInfo[2] == IMAGETYPE_JPEG) 	imagejpeg($tempImage, $filePath, 100);
+			if($sourceImageInfo[2] == IMAGETYPE_JPEG) 	 imagejpeg($tempImage, $filePath, 100);
 			elseif($sourceImageInfo[2] == IMAGETYPE_PNG) imagepng($tempImage, $filePath);
 			elseif($sourceImageInfo[2] == IMAGETYPE_GIF) imagegif($tempImage, $filePath);
 		}
 		
 	}	
+	if( isset($tempImage) )        imagedestroy( $tempImage );
+	if( isset($destinationImage) ) imagedestroy( $destinationImage );
 }
 function createThumbnail($sourcePath, $destPath) {
 
@@ -73,6 +75,9 @@ function createThumbnail($sourcePath, $destPath) {
 	if(preg_match("/[.][j][p][g]/", $sourcePath))		imagejpeg($thumbnail, $destPath, 100);
 	elseif(preg_match("/[.][p][n][g]/", $sourcePath))	imagepng($thumbnail, $destPath);
 	elseif(preg_match("/[.][g][i][f]/", $sourcePath))	imagegif($thumbnail, $destPath);
+
+	if( isset( $thumbnail ) )   imagedestroy( $thumbnail );
+	if( isset( $sourceImage ) ) imagedestroy( $sourceImage );
 }
 function mysql_prep($string){
 	global $connection;

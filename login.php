@@ -1,5 +1,6 @@
-<?php include 'header.php'; ?>
-<?php 
+<?php
+$title = "Login"; 
+include 'header.php';
 $msg = "";
 extract($_POST);
 if( isset($login) ) {
