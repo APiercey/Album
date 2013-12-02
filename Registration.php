@@ -35,19 +35,34 @@ if(isset($btnRegister))
 	
 	if (!$valid)
 	{
-		
 		$hash = sha1($txtPassword);
-		$insertUser = "INSERT INTO User (Email, Name, Password) VALUES('$txtEmail', '$txtName', '$hash')";
+		$insertUser = "INSERT INTO User (Email, Name, Password) VALUES(?, ?, ?)";
+		$insertUserStmt = mysqli_prepare($connection, $insertUser);	
+		mysqli_stmt_bind_param($insertUserStmt,'sss', $txtEmail,$txtName,$hash);
+		
+		
+		//$insertUser = "INSERT INTO User (Email, Name, Password) VALUES('$txtEmail', //'$txtName', '$hash')";
 							
-		if (mysqli_query($connection, $insertUser))
+		if (mysqli_stmt_execute($insertUserStmt))
 		{
+		    $selectUser = "SELECT * FROM User WHERE Email = ? AND Password = ?";
+			$selectUserStmt = mysqli_prepare($connection, $selectUser);	
+			mysqli_stmt_bind_param($selectUserStmt,'ss', $txtEmail,$hash );
+			mysqli_stmt_execute($selectUserStmt);
+			mysqli_stmt_bind_result($selectUserStmt, $UserId, $Email, $Name, $Password   );
+			//if (mysqli_query($connection, $insertUser))
+		//{
+			//$result = mysqli_query($connection, "SELECT * FROM User WHERE Email = '$txtEmail' AND Password = '$hash'") or die(mysql_error());
 			
-			$result = mysqli_query($connection, "SELECT * FROM User WHERE Email = '$txtEmail' AND Password = '$hash'") or die(mysql_error());
+			while(mysqli_stmt_fetch($selectUserStmt))
+			{ 
+			 $_SESSION['user'] = new User($UserId, $Name);
+			}
 			
-			while($row = mysqli_fetch_assoc($result)) {
+			/*while($row = mysqli_fetch_assoc($result)) {
 
 				$_SESSION['user'] = new User($row['UserId'], $row['Name']);
-			}
+			}*/
 
 			if(isset($_SESSION['user'])) {
 				header("Location: myalbum.php");

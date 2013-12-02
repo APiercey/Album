@@ -11,14 +11,24 @@ if( isset($login) ) {
 		$msg = "Please provide both email address and password";
 	}
 	else {
+		$hash = sha1($password);
+		
+		$selectUserEmail = "SELECT * FROM User WHERE Email = ? AND Password = ?";
+			$selectUserEmailStmt = mysqli_prepare($connection,  $selectUserEmail);	
+			mysqli_stmt_bind_param($selectUserEmailStmt,'ss', $email, $hash);
+			mysqli_stmt_execute($selectUserEmailStmt);
+			mysqli_stmt_bind_result($selectUserEmailStmt, $UserId, $Email, $Name, $Password);
+		
+		while(mysqli_stmt_fetch($selectUserEmailStmt))
+			{ 
+			 $_SESSION['user'] = new User($UserId, $Name);
+					//$query = "SELECT UserId, Name FROM user WHERE email = '".$email."' AND //password = '".sha1($password)."'";
+		//$result = $connection->query($query) or die("error".mysql_errno().": ".$query);
+		//echo $result->num_rows;
+		//while( $row = $result->fetch_assoc() ) {
 
-		$query = "SELECT UserId, Name FROM user WHERE email = '".$email."' AND password = '".sha1($password)."'";
-		$result = $connection->query($query) or die("error".mysql_errno().": ".$query);
-		echo $result->num_rows;
-		while( $row = $result->fetch_assoc() ) {
-
-			$_SESSION['user'] = new User($row['UserId'], $row['Name']);
-			var_dump($row);
+			//$_SESSION['user'] = new User($row['UserId'], $row['Name']);
+			//var_dump($row);
 			header('Location: myalbum.php');
 			$connection->close();
 			exit;
